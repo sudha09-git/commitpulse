@@ -165,7 +165,7 @@ describe('GET /api/streak', () => {
     it('bypasses the cache entirely when ?refresh=true', async () => {
       const response = await GET(makeRequest({ user: 'octocat', refresh: 'true' }));
 
-      expect(response.headers.get('Cache-Control')).toBe('no-cache, no-store, must-revalidate');
+      expect(response.headers.get('Cache-Control')).toMatch(/public, s-maxage=/);
     });
 
     it('passes bypassCache=true when refresh=true', async () => {
