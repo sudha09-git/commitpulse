@@ -8,7 +8,7 @@ import { sanitizeFont, sanitizeHexColor, sanitizeRadius, sanitizeGoogleFontUrl }
 import { SVG_WIDTH, SVG_HEIGHT, FONT_MAP } from './constants';
 
 // helpers
-function truncateUsername(name: string, max = 20): string {
+export function truncateUsername(name: string, max = 20): string {
   return name.length > max ? name.slice(0, max) + '…' : name;
 }
 
