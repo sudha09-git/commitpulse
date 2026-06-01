@@ -105,10 +105,26 @@ export const streakParamsSchema = z.object({
   grace: z
     .string()
     .optional()
-    .transform((val) => {
-      if (!val) return 1;
+    .superRefine((val, ctx) => {
+      if (val === undefined || val === '') return;
       const parsed = Number(val);
-      return isNaN(parsed) ? 1 : Math.max(0, Math.min(parsed, 7));
+      if (isNaN(parsed) || !Number.isInteger(parsed)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'grace must be an integer between 0 and 7',
+        });
+        return;
+      }
+      if (parsed < 0 || parsed > 7) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'grace must be an integer between 0 and 7',
+        });
+      }
+    })
+    .transform((val) => {
+      if (val === undefined || val === '') return 1;
+      return Number(val);
     })
     .default(1),
 });
